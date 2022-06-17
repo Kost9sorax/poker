@@ -45,7 +45,7 @@ def is_three_of_a_kind(hand):
 
 
 def is_straight(hand):
-    """Ввозвращает True, если выпал Стрит, иначе False"""
+    """Возвращает True, если выпал Стрит, иначе False"""
     valid_ranges = [['A', '2', '3', '4', '5'], ['6', '7', '8', '9', 'T']]
     for index in range(2, 6):
         valid = [str(num) for num in range(index, index + 5)]
@@ -62,29 +62,29 @@ def is_straight(hand):
 
 
 def is_flush(hand):
-    """Ввозвращает True, если выпал Флеш, иначе False"""
+    """Возвращает True, если выпал Флеш, иначе False"""
     return len(set(get_card_suit(card) for card in hand)) == 1
 
 
 def is_full_house(hand):
-    """Ввозвращает True, если выпал Фулл-хаус, иначе False"""
+    """Возвращает True, если выпал Фулл-хаус, иначе False"""
     return is_one_pair(hand) and is_three_of_a_kind(hand)
 
 
 def is_four_of_a_kind(hand):
-    """Ввозвращает True, если выпал Каре, иначе False"""
+    """Возвращает True, если выпал Каре, иначе False"""
     hand_values = [get_card_value(card) for card in hand]
     val_count = {card: hand_values.count(card) for card in hand_values}
     return 4 in val_count.values()
 
 
 def is_straight_flush(hand):
-    """Ввозвращает True, если выпал Стрит-флеш, иначе False"""
+    """возвращает True, если выпал Стрит-флеш, иначе False"""
     return is_straight(hand) and is_flush(hand)
 
 
 def is_royal_flush(hand):
-    """Ввозвращает True, если выпал Флеш-рояль, иначе False"""
+    """Возвращает True, если выпал Флеш-рояль, иначе False"""
     hand_vals = [get_card_value(card) for card in hand]
     valid_cards = ['A', 'K', 'Q', 'J', 'T']
     if is_flush(hand):

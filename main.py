@@ -6,22 +6,22 @@ CARD_RANKS = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T
               'J': 11, 'Q': 12, 'K': 13, 'A': 14}
 
 
-def get_hands(file):
+def get_hands(file) -> [List, List]:
     hands = open(file).read().rstrip().split('\n')
     first_player = [hand.split()[:5] for hand in hands]
     second_player = [hand.split()[5:] for hand in hands]
     return first_player, second_player
 
 
-def get_card_value(card):
+def get_card_value(card: str) -> str:
     return card[:-1]
 
 
-def get_card_suit(card):
+def get_card_suit(card: str) -> str:
     return card[-1]
 
 
-def is_one_pair(hand: List[str]):
+def is_one_pair(hand: List[str]) -> bool:
     """Возвращает True и значение пары карт с одинаковым значением, если такая пара нашлась, иначе False"""
     hand_values = [get_card_value(card) for card in hand]
     val_count = {card: hand_values.count(card) for card in hand_values}
@@ -68,7 +68,7 @@ def is_flush(hand: List[str]) -> bool:
 
 
 def is_full_house(hand: List[str]) -> bool:
-    """Возвращает True, если выпал Фулл-хаус, иначе False"""
+    """Возвращает True, если выпал Фул-хаус, иначе False"""
     return is_one_pair(hand) and is_three_of_a_kind(hand)
 
 
@@ -94,19 +94,19 @@ def is_royal_flush(hand: List[str]) -> bool:
     return False
 
 
-def get_first_hand_max(hand: List[str]):
+def get_first_hand_max(hand: List[str]) -> int:
     """Возвращает значение первой максимальной карты в руке"""
     hand_vals = {card: CARD_RANKS[card[:-1]] for card in hand}
     return max(hand_vals.values())
 
 
-def get_second_hand_max(hand: List[str]):
+def get_second_hand_max(hand: List[str]) -> int:
     """Возвращает значение второй максимальной карты в руке"""
     hand_vals = sorted([(card, CARD_RANKS[card[:-1]]) for card in hand], key=operator.itemgetter(1), reverse=True)
     return hand_vals[1][1]
 
 
-def get_hand_score(hand: List[str]):
+def get_hand_score(hand: List[str]) -> [List, int]:
     """Возвращает руку и её счёт"""
     hand_score = {is_one_pair(hand): 1, is_two_pair(hand): 2, is_three_of_a_kind(hand): 3, is_straight(hand): 4,
                   is_flush(hand): 5, is_full_house(hand): 6, is_four_of_a_kind(hand): 7, is_straight_flush(hand): 8,
@@ -118,7 +118,7 @@ def get_hand_score(hand: List[str]):
     return hand, total
 
 
-def compare_hands(hand1: List[str], hand2: List[str]):
+def compare_hands(hand1: List[str], hand2: List[str]) -> int:
     """Возвращает 1, если выиграл первый игрок, и 2, если выиграл второй игрок"""
     hand1, score1 = get_hand_score(hand1)
     hand2, score2 = get_hand_score(hand2)
@@ -149,7 +149,7 @@ def compare_hands(hand1: List[str], hand2: List[str]):
         return 2
 
 
-def game():
+def game() -> int:
     hands1, hands2 = get_hands('p054_poker.txt')
     scores = [compare_hands(hands1[i], hands2[i]) for i in range(len(hands1) - 1)]
     player1_score = sum(1 for player in scores if player == 1)
